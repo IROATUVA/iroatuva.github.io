@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html>
-<head>
+<head><!Content created by Mohit Srivastav. IRO Treasurer term Spring 2020-Fall 2020>
 <style>
 ul {
   list-style-type: none;
@@ -35,14 +35,20 @@ li a:hover:not(.active) {
 <ul>
   <li><a href="../">Home</a></li>
   <li><a class="active" href="./">Day-by-day Data</a></li>
-  <li><a href="../contact">Contact</a></li>
   <li><a href="https://www.iroatuva.org/about">About</a></li>
   <li><a href="../charts">Extra Charts and Graphs</a></li>
+  <li><a href="../branch">Statistics by Branch</a></li>
 </ul></style>
 </head>
 <body>
-<h1 style = "text-align:center;"> Tables of raw data</h1>
-<table style = "width:50%">
+<h1 style = "text-align:center;"> Tables of Raw Data</h1>
+<select class="default" id="data_shower" name="data_shower">
+        <option value="" selected>Select the type of data you want to show</option>
+        <option value="1">Bank Account Data</option>
+        <option value="2">I have nothing else this is a placeholder for future data</option>
+    </select>
+<div id = "one" style="display:none";>
+<table>
 <tr>
 	<th colspan = "2"> <h1> Bank Account Data by Day </h1> </th>
 </tr>
@@ -342,5 +348,25 @@ li a:hover:not(.active) {
 	<th> 01/02/2020 </th>
 	<th> 37371.78 </th>
 </tr>
+</table>
+</div>
+<div id = "two" style = "display:none;"> Placeholder </div>
+<script>
+var elem = document.getElementById("data_shower");
+var x = ["one","two"];
+elem.onchange = function(){
+    if (elem.value == "1"){
+    	for(var i = 0; i < x.length; i++){
+    		document.getElementById(x[i]).style.display = "none";
+    	}
+			document.getElementById("one").style.display = "block";
+    } else if(elem.value == "2"){
+    	for(var i = 0; i < x.length; i++){
+    		document.getElementById(x[i]).style.display = "none";
+    	}
+      document.getElementById("two").style.display = "block";
+      }
+};
+</script>
 </body>
 </html>
