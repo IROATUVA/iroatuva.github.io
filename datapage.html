@@ -355,6 +355,11 @@ li a:hover:not(.active) {
 var elem = document.getElementById("data_shower");
 var x = ["one","two"];
 elem.onchange = function(){
+	if (elem.value == ""){
+		for(var i = 0; i < x.length; i++){
+    		document.getElementById(x[i]).style.display = "none";
+    	}
+	}
     if (elem.value == "1"){
     	for(var i = 0; i < x.length; i++){
     		document.getElementById(x[i]).style.display = "none";
