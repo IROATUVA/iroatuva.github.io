@@ -3,7 +3,7 @@
 <head><!Content created by Mohit Srivastav. IRO Treasurer term Spring 2020-Fall 2020>
 <style>
 img{border-style: double; width:100%;}
-ul {
+.barlist {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -11,7 +11,7 @@ ul {
   background-color: #333;
 }
 
-li {
+.bar {
   float: left;
 }
 
@@ -23,7 +23,7 @@ li a {
   text-decoration: none;
 }
 
-li a:hover:not(.active) {
+.bar a:hover:not(.active) {
   background-color: #111;
 }
 
@@ -33,14 +33,15 @@ li a:hover:not(.active) {
 </style>
 </head>
 <body>
-<ul>
-  <li><a href="../">Home</a></li>
-  <li><a href="../datapage">Day-by-day Data</a></li>
-  <li><a href="https://www.iroatuva.org/about">About</a></li>
-  <li><a class="active" href="./">Extra Charts and Graphs</a></li>
-  <li><a href="../branch">Statistics by Branch</a></li>
-</ul><h1 style = "text-align:center;"> Some Extra Graphs </h1>
-<h2 style = "text-align:center;"> Last Updated 07-21-2020</h2>
+<ul class = "barlist">
+  <li class = "bar"><a href="../">Home</a></li>
+  <li class = "bar"><a href="../datapage">Day-by-day Data</a></li>
+  <li class = "bar"><a href="https://www.iroatuva.org/about">About</a></li>
+  <li class = "bar"><a class="active" href="./">Extra Charts and Graphs</a></li>
+  <li class = "bar"><a href="../branch">Statistics by Branch</a></li>
+</ul>
+<h1 style = "text-align:center;"> Some Extra Graphs </h1>
+<h2 style = "text-align:center;"> Last Updated 07-25-2020</h2>
 <img src = "Bank_Account_Data_IRO_1_1_2020.png" alt = "Another graph of the bank account">
 <img src = "Bank_Account_Data_IRO_6_1_2020.png" alt = "Another graph of the bank account">
 </body>

@@ -2,7 +2,7 @@
 <html>
 <head><!Content created by Mohit Srivastav. IRO Treasurer term Spring 2020-Fall 2020>
 <style>
-ul {
+.barlist {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -10,7 +10,7 @@ ul {
   background-color: #333;
 }
 
-li {
+.bar {
   float: left;
 }
 
@@ -22,7 +22,7 @@ li a {
   text-decoration: none;
 }
 
-li a:hover:not(.active) {
+.bar a:hover:not(.active) {
   background-color: #111;
 }
 
@@ -32,13 +32,14 @@ li a:hover:not(.active) {
 </style>
 </head>
 <body>
-<ul>
-  <li><a href="../">Home</a></li>
-  <li><a class="active" href="./">Day-by-day Data</a></li>
-  <li><a href="https://www.iroatuva.org/about">About</a></li>
-  <li><a href="../charts">Extra Charts and Graphs</a></li>
-  <li><a href="../branch">Statistics by Branch</a></li>
-</ul></style>
+<ul class = "barlist">
+  <li class = "bar"><a href="../">Home</a></li>
+  <li class = "bar"><a class="active" href="./">Day-by-day Data</a></li>
+  <li class = "bar"><a href="https://www.iroatuva.org/about">About</a></li>
+  <li class = "bar"><a href="../charts">Extra Charts and Graphs</a></li>
+  <li class = "bar"><a href="../branch">Statistics by Branch</a></li>
+</ul>
+</style>
 </head>
 <body>
 <h1 style = "text-align:center;"> Tables of Raw Data</h1>

@@ -5,7 +5,7 @@ import os # An included library with Python install.
 
 months = {1:"Jan", 2:"Feb", 3:"Mar",4:"Apr",5:"May",6:"Jun",7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
 
-top_banner = '''ul {
+top_banner = '''.barlist {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -13,7 +13,7 @@ top_banner = '''ul {
   background-color: #333;
 }
 
-li {
+.bar {
   float: left;
 }
 
@@ -25,7 +25,7 @@ li a {
   text-decoration: none;
 }
 
-li a:hover:not(.active) {
+.bar a:hover:not(.active) {
   background-color: #111;
 }
 
@@ -37,6 +37,18 @@ li a:hover:not(.active) {
 <body>
 '''
 heading = '<!DOCTYPE HTML>\n<html>\n<head><!Content created by Mohit Srivastav. IRO Treasurer term Spring 2020-Fall 2020>\n'
+
+def bulleted_list_maker(obj_list):
+	if isinstance(obj_list,list):
+		code_text = ''
+		code_text += '<ul>\n'
+		for i in obj_list:
+			code_text += '\t<li><h2> ' + i + ' </h2></li>\n'
+		code_text += '</ul>\n'
+		return code_text
+	else:
+		return None
+
 
 def write_HTML():
 	import shutil
@@ -69,7 +81,7 @@ def write_HTML():
 		for last_line in read:
 			pass
 		last_line = last_line.split(',')[0]
-	cur_amt = float(x)
+	cur_amt = str(format(float(x),','))
 	last_line = last_line.split('/')
 	with open('BoFa.csv') as min_max:
 		money = {}
@@ -83,9 +95,13 @@ def write_HTML():
 
 	min_date = money[min(money)].split('/')
 	min_date = months[int(min_date[0])] + ' ' + min_date[1] + ', ' + min_date[2]
+	minimum = 'The minimal amount in the account was $' + min_num + ' on ' + min_date
 
 	max_date = money[max(money)].split('/')
 	max_date = months[int(max_date[0])] + ' ' + max_date[1] + ', ' + max_date[2]
+	maximum = 'The maximal amount in the account was $' + max_num + ' on ' + max_date
+
+	min_max = [minimum, maximum]
 
 ######################################## THE MAIN PAGE #####################################
 
@@ -93,23 +109,25 @@ def write_HTML():
 	code_text += '<style>\n'
 	code_text += 'img{border-style: double; width:100%;}\n'
 	code_text += top_banner
-	code_text += '''<ul>
-  <li><a class="active" href="./">Home</a></li>
-  <li><a href="datapage">Day-by-day Data</a></li>
-  <li><a href="https://www.iroatuva.org/about">About</a></li>
-  <li><a href="charts">Extra Charts and Graphs</a></li>
-  <li><a href="branch">Statistics by Branch</a></li>
-</ul>'''
+	code_text += '''<ul class = "barlist">
+  <li class = "bar"><a class="active" href="./">Home</a></li>
+  <li class = "bar"><a href="datapage">Day-by-day Data</a></li>
+  <li class = "bar"><a href="https://www.iroatuva.org/about">About</a></li>
+  <li class = "bar"><a href="charts">Extra Charts and Graphs</a></li>
+  <li class = "bar"><a href="branch">Statistics by Branch</a></li>
+</ul>\n'''
 	code_text += '<h1 style = "text-align:center;"> International Relations Organization at UVA\'s Data Webpage</h1>\n'
 	code_text += '<h2 style = "background-color:tomato; text-align:center;"> IRO at UVA is not officially affiliated with the university</h2>\n'
 	code_text += '<h2 style = "text-align:center;"> Last Updated ' + day + '</h2>\n'
 	code_text += '<h2 style = "text-align:center;"> <strong> The IRO bank account has $' + str(cur_amt) + ' as of now </strong></h2>\n'
-	code_text += '<h2 style = "text-align:center";> Since ' + months[int(last_line[0])] + ' ' + last_line[1] + ', ' + last_line[2] + ', the most money in the account was $' + max_num + ' on ' + max_date + ', and the smallest amount was $' + min_num + ' on ' + min_date + '</h2>'
+	code_text += '<h2 style = "text-align:center";> Since ' + months[int(last_line[0])] + ' ' + last_line[1] + ', ' + last_line[2] + ':</h2>\n'
+	code_text += bulleted_list_maker(min_max)
 	code_text += '<figure>\n'
 	code_text += '<img src = "' + mainPageGraph + '" alt = "A graph of the bank account">\n'
 	code_text += '<figcaption style = "text-align:center;"> The Bank Account Over Time </figcaption>\n'
 	code_text += '</figure>\n'
 	code_text +='</body>\n</html>'
+	print(code_text)
 	with open('index.html','w+',encoding = 'utf-8') as g:
 		g.write(code_text)
 		code_text = '' #You are now done with the main page
@@ -121,13 +139,13 @@ def write_HTML():
 	code_text += heading
 	code_text += '<style>\n'
 	code_text += top_banner
-	code_text += '''<ul>
-  <li><a href="../">Home</a></li>
-  <li><a class="active" href="./">Day-by-day Data</a></li>
-  <li><a href="https://www.iroatuva.org/about">About</a></li>
-  <li><a href="../charts">Extra Charts and Graphs</a></li>
-  <li><a href="../branch">Statistics by Branch</a></li>
-</ul>'''
+	code_text += '''<ul class = "barlist">
+  <li class = "bar"><a href="../">Home</a></li>
+  <li class = "bar"><a class="active" href="./">Day-by-day Data</a></li>
+  <li class = "bar"><a href="https://www.iroatuva.org/about">About</a></li>
+  <li class = "bar"><a href="../charts">Extra Charts and Graphs</a></li>
+  <li class = "bar"><a href="../branch">Statistics by Branch</a></li>
+</ul>\n'''
 	code_text += '</style>\n</head>\n<body>\n'
 	code_text += '<h1 style = "text-align:center;"> Tables of Raw Data</h1>\n'
 	code_text += '''<select class="default" id="data_shower" name="data_shower">
@@ -187,13 +205,13 @@ elem.onchange = function(){
 	code_text += '<style>\n'
 	code_text += 'img{border-style: double; width:100%;}\n'
 	code_text += top_banner
-	code_text += '''<ul>
-  <li><a href="../">Home</a></li>
-  <li><a href="../datapage">Day-by-day Data</a></li>
-  <li><a href="https://www.iroatuva.org/about">About</a></li>
-  <li><a class="active" href="./">Extra Charts and Graphs</a></li>
-  <li><a href="../branch">Statistics by Branch</a></li>
-</ul>'''
+	code_text += '''<ul class = "barlist">
+  <li class = "bar"><a href="../">Home</a></li>
+  <li class = "bar"><a href="../datapage">Day-by-day Data</a></li>
+  <li class = "bar"><a href="https://www.iroatuva.org/about">About</a></li>
+  <li class = "bar"><a class="active" href="./">Extra Charts and Graphs</a></li>
+  <li class = "bar"><a href="../branch">Statistics by Branch</a></li>
+</ul>\n'''
 	code_text += '<h1 style = "text-align:center;"> Some Extra Graphs </h1>\n'
 	code_text += '<h2 style = "text-align:center;"> Last Updated ' + day + '</h2>\n'
 	for i in bank_charts:
