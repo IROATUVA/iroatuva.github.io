@@ -143,7 +143,6 @@ def write_HTML():
 	code_text += '<figcaption style = "text-align:center;"> The Bank Account Over Time </figcaption>\n'
 	code_text += '</figure>\n'
 	code_text +='</body>\n</html>'
-	print(code_text)
 	with open('index.html','w+',encoding = 'utf-8') as g:
 		g.write(code_text)
 		code_text = '' #You are now done with the main page
@@ -256,4 +255,3 @@ elem.onchange = function(){
 
 
 write_HTML()
-#print(header(2,header_list,header_links))
