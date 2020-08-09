@@ -4,6 +4,9 @@ import datetime # An included library with Python install.
 import os # An included library with Python install.
 
 months = {1:"Jan", 2:"Feb", 3:"Mar",4:"Apr",5:"May",6:"Jun",7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
+header_list = ["Home","Day-by-Day Data","Extra Charts and Graphs", "Statistics by Branch", "Code Information", "About"]
+header_links = ["../","datapage","charts","branch", "codeinfo","https://www.iroatuva.org/about"]
+active_number = 0
 
 top_banner = '''.barlist {
   list-style-type: none;
@@ -49,8 +52,24 @@ def bulleted_list_maker(obj_list):
 	else:
 		return None
 
+def header(active_number, header_list, header_links): #The header list is the list of things you want ot put in the header
+#The active number is the element of the list that is deemed to "active" at that time
+	code_text = ''
+	code_text += '<ul class = "barlist">\n'
+	for i in range(len(header_list)):
+		code_text += '\t<li class = "bar"><'
+		if i == active_number:
+			code_text += 'a class="active">'
+		else:
+			code_text += 'a href=../'+header_links[i] + '>'
+		code_text += header_list[i] + '</a></li>\n'
+	code_text += '</ul>\n'
+
+	return code_text
+
 
 def write_HTML():
+	global active_number
 	import shutil
 	bank_charts = []
 	mainPageGraph = ""
@@ -109,13 +128,10 @@ def write_HTML():
 	code_text += '<style>\n'
 	code_text += 'img{border-style: double; width:100%;}\n'
 	code_text += top_banner
-	code_text += '''<ul class = "barlist">
-  <li class = "bar"><a class="active" href="./">Home</a></li>
-  <li class = "bar"><a href="datapage">Day-by-day Data</a></li>
-  <li class = "bar"><a href="https://www.iroatuva.org/about">About</a></li>
-  <li class = "bar"><a href="charts">Extra Charts and Graphs</a></li>
-  <li class = "bar"><a href="branch">Statistics by Branch</a></li>
-</ul>\n'''
+	
+	code_text += header(active_number, header_list, header_links)
+	active_number += 1
+
 	code_text += '<h1 style = "text-align:center;"> International Relations Organization at UVA\'s Data Webpage</h1>\n'
 	code_text += '<h2 style = "background-color:tomato; text-align:center;"> IRO at UVA is not officially affiliated with the university</h2>\n'
 	code_text += '<h2 style = "text-align:center;"> Last Updated ' + day + '</h2>\n'
@@ -139,13 +155,10 @@ def write_HTML():
 	code_text += heading
 	code_text += '<style>\n'
 	code_text += top_banner
-	code_text += '''<ul class = "barlist">
-  <li class = "bar"><a href="../">Home</a></li>
-  <li class = "bar"><a class="active" href="./">Day-by-day Data</a></li>
-  <li class = "bar"><a href="https://www.iroatuva.org/about">About</a></li>
-  <li class = "bar"><a href="../charts">Extra Charts and Graphs</a></li>
-  <li class = "bar"><a href="../branch">Statistics by Branch</a></li>
-</ul>\n'''
+
+	code_text += header(active_number, header_list, header_links)
+	active_number += 1
+
 	code_text += '</style>\n</head>\n<body>\n'
 	code_text += '<h1 style = "text-align:center;"> Tables of Raw Data</h1>\n'
 	code_text += '''<select class="default" id="data_shower" name="data_shower">
@@ -205,13 +218,10 @@ elem.onchange = function(){
 	code_text += '<style>\n'
 	code_text += 'img{border-style: double; width:100%;}\n'
 	code_text += top_banner
-	code_text += '''<ul class = "barlist">
-  <li class = "bar"><a href="../">Home</a></li>
-  <li class = "bar"><a href="../datapage">Day-by-day Data</a></li>
-  <li class = "bar"><a href="https://www.iroatuva.org/about">About</a></li>
-  <li class = "bar"><a class="active" href="./">Extra Charts and Graphs</a></li>
-  <li class = "bar"><a href="../branch">Statistics by Branch</a></li>
-</ul>\n'''
+	
+	code_text += header(active_number, header_list, header_links)
+	active_number += 1
+
 	code_text += '<h1 style = "text-align:center;"> Some Extra Graphs </h1>\n'
 	code_text += '<h2 style = "text-align:center;"> Last Updated ' + day + '</h2>\n'
 	for i in bank_charts:
@@ -221,7 +231,29 @@ elem.onchange = function(){
 		f.write(code_text)
 		code_text = ''
 	shutil.move('charts.html','iroatuva.github.io/charts.html')
+################## Branches page ####################################
+	code_text += heading
+	code_text += '<style>\n'
+	code_text += top_banner
+
+	code_text += header(active_number, header_list, header_links)
+	active_number += 1
+
+	code_text += '<h1 style="text-align:center";> There is no information specific to a branch of IRO that can be posted right now </h1>\n'
+	code_text += '</body>\n</html>'
+
+	with open('branch.html', 'w+', encoding = 'utf-8') as f:
+		f.write(code_text)
+		code_text = ''
+	shutil.move('branch.html','iroatuva.github.io/branch.html')
+
+
+################# Code hosting part of the website ####################
+
+
 
 	shutil.copy('website_designer.py', 'iroatuva.github.io')
 
+
 write_HTML()
+#print(header(2,header_list,header_links))
