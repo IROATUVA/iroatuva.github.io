@@ -102,6 +102,7 @@ def write_HTML():
 		last_line = last_line.split(',')[0]
 	cur_amt = str(format(float(x),','))
 	last_line = last_line.split('/')
+	print(last_line)
 	with open('BoFa.csv') as min_max:
 		money = {}
 		for line in min_max:
