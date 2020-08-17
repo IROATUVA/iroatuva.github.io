@@ -2,10 +2,11 @@ import sys # An included library with Python install.
 from datetime import date # An included library with Python install.
 import datetime # An included library with Python install.
 import os # An included library with Python install.
+import shutil # I believe you have to install this one
 
 months = {1:"Jan", 2:"Feb", 3:"Mar",4:"Apr",5:"May",6:"Jun",7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
-header_list = ["Home","Day-by-Day Data","Extra Charts and Graphs", "Statistics by Branch", "Code Information", "About"]
-header_links = ["../","datapage","charts","branch", "codeinfo","https://www.iroatuva.org/about"]
+header_list = ["Home","Day-by-Day Data","Extra Charts and Graphs", "Statistics by Branch", "Code Host", "About"]
+header_links = ["../","../datapage","../charts","../branch", "https://github.com/IROATUVA/iroatuva.github.io","https://www.iroatuva.org/about"]
 active_number = 0
 
 top_banner = '''.barlist {
@@ -61,7 +62,7 @@ def header(active_number, header_list, header_links): #The header list is the li
 		if i == active_number:
 			code_text += 'a class="active">'
 		else:
-			code_text += 'a href=../'+header_links[i] + '>'
+			code_text += 'a href='+header_links[i] + '>'
 		code_text += header_list[i] + '</a></li>\n'
 	code_text += '</ul>\n'
 
@@ -70,7 +71,6 @@ def header(active_number, header_list, header_links): #The header list is the li
 
 def write_HTML():
 	global active_number
-	import shutil
 	bank_charts = []
 	mainPageGraph = ""
 	for files in os.listdir("."):
@@ -102,7 +102,6 @@ def write_HTML():
 		last_line = last_line.split(',')[0]
 	cur_amt = str(format(float(x),','))
 	last_line = last_line.split('/')
-	print(last_line)
 	with open('BoFa.csv') as min_max:
 		money = {}
 		for line in min_max:
@@ -164,7 +163,7 @@ def write_HTML():
 	code_text += '''<select class="default" id="data_shower" name="data_shower">
         <option value="" selected>Select the type of data you want to show</option>
         <option value="1">Bank Account Data</option>
-        <option value="2">I have nothing else this is a placeholder for future data</option>
+        <option value="2">Venmo Data</option>
     </select>\n'''
 	code_text += '<div id = "one" style="display:none" "width:100%";>\n'
 	code_text += '<table style="width:100%";>\n'
@@ -182,7 +181,7 @@ def write_HTML():
 			code_text += '\t<th> ' + line[1] + ' </th>\n'
 			code_text += '</tr>\n'
 	code_text += '</table>\n</div>\n'
-	code_text += '<div id = "two" style = "display:none;"> Placeholder </div>\n'
+	code_text += '<div id = "two" style = "display:none;"> Venmo Data is not available right now </div>\n'
 	code_text += '<script>\n'
 	code_text += '''var elem = document.getElementById("data_shower");
 var x = ["one","two"];
@@ -248,11 +247,10 @@ elem.onchange = function(){
 	shutil.move('branch.html','iroatuva.github.io/branch.html')
 
 
-################# Code hosting part of the website ####################
+################# Code hosting part of the website just redirects to the github site ####################
 
-
-
-	shutil.copy('website_designer.py', 'iroatuva.github.io')
 
 
 write_HTML()
+
+shutil.copy("website_designer.py", "iroatuva.github.io")
