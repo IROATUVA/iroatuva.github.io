@@ -7,7 +7,8 @@ import shutil # I believe you have to install this one
 months = {1:"Jan", 2:"Feb", 3:"Mar",4:"Apr",5:"May",6:"Jun",7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
 header_list = ["Home","Day-by-Day Data","Extra Charts and Graphs", "Statistics by Branch", "Code Host", "About"]
 header_links = ["../","../datapage","../charts","../branch", "https://github.com/IROATUVA/iroatuva.github.io","https://www.iroatuva.org/about"]
-active_number = 0
+
+active_number = 0 #This is the index of the element in the header_list that is active at a given time
 
 top_banner = '''.barlist {
   list-style-type: none;
@@ -68,10 +69,92 @@ def header(active_number, header_list, header_links): #The header list is the li
 
 	return code_text
 
+def make_table_from_csv(filename, columns, title, div_name, column_titles, placeholder = False):
+	if not isinstance(column_titles, list):
+		raise TypeError("You need a list as the fifth parameter!")
+	if not isinstance(columns, int):
+		raise TypeError("The second parameter has to be a whole number!")
+	if not isinstance(title, str) or not isinstance(div_name, str) or not isinstance(filename, str):
+		raise TypeError("The first, third, and fourth parameters have to be strings!")
+	if  len(column_titles) != columns:
+		raise TypeError("The column title list and the number of columns have to be the same!")
+	if ".csv" not in filename:
+		raise TypeError("file given must be a .csv file!")
+
+	code_text = ""
+
+	if placeholder:
+		return '<div id = "'+div_name+'" style = "display:none;" "text-align:center;"><br><br> not available right now </div>\n'
+
+	with open(filename, encoding='utf-8') as f:
+		code_text += '<div id = "'+div_name+'" style="display:none" "width:100%";>\n'
+		code_text += '<table style="width:100%";>\n'
+		code_text += '<tr>\n' 
+		code_text += '\t<th colspan = "'+str(columns)+'"> <h1> '+title+' </h1> </th> \n </tr>\n'
+
+		code_text += '<tr>\n'
+		for i in range(len(column_titles)):
+			code_text += '\t<th> ' + column_titles[i] + ' </th>\n'
+		code_text += '</tr>\n'
+
+		for line in f:
+			line = line.strip().split(',')
+			code_text += '<tr>\n' + '\t' + '<th> ' + line[0] + ' </th>\n'
+			code_text += '\t<th> ' + line[1] + ' </th>\n'
+			code_text += '</tr>\n'
+	code_text += '</table>\n</div>\n'
+
+	return code_text
+
+
+def dropdown_displayer(filenames, selection_list, table_title_list, table_column_title_list):
+	div_id_list = []
+
+	if not isinstance(filenames, list) or not isinstance(selection_list, list):
+		raise TypeError("You need a list as the first and last parameter!")
+
+	for i in range(len(selection_list)):
+		div_id_list.append(str(i))
+
+	code_text = ""
+	code_text += '''<select class="default" id="data_shower" name="data_shower">
+    <option value="" selected>Select the type of data you want to show</option>\n'''
+
+	for i in range(len(selection_list)):
+		code_text += '\t<option value="'+str(i)+'">'+selection_list[i]+'</option>\n'
+	code_text += '</select>\n'
+
+	for i in range(len(selection_list)):
+		if i >= len(filenames): #Adds an extra placeholder for any elements not given filenames
+			code_text += make_table_from_csv(".csv", 0,"",div_id_list[i],[],True)
+			continue
+		code_text += make_table_from_csv(filenames[i], len(table_column_title_list[i]), table_title_list[i], div_id_list[i], table_column_title_list[i])
+
+	code_text += '<script>\n'
+	code_text += 'var elem = document.getElementById("data_shower");\n'
+	code_text += 'var x = ' + str(div_id_list).replace("'",'"') + ';\n'
+	code_text += 'elem.onchange=function(){\n'
+	code_text += '''\t if (elem.value == ""){
+		for(var i = 0; i < x.length; i++){
+			document.getElementById(x[i]).style.display = "none";
+		}
+	}'''
+	for i in div_id_list:
+		code_text += '\n\t if (elem.value == "'+str(i)+'''"){
+			for(var i = 0; i < x.length; i++){
+				document.getElementById(x[i]).style.display = "none";
+			}\n'''
+		code_text += '\t\tdocument.getElementById("'+i+'''").style.display = "block";
+			}\n'''
+	code_text += '\t};\n'
+	code_text += '</script>\n'
+
+	return code_text
 
 def write_HTML():
 	global active_number
 	bank_charts = []
+	csv_list = []
 	mainPageGraph = ""
 	for files in os.listdir("."):
 		if "Bank_Account_Data_IRO" in files:
@@ -86,9 +169,13 @@ def write_HTML():
 				date_compared = datetime.datetime(int(date_compared[2]),int(date_compared[0]),int(date_compared[1]))
 				if date_compared < date_from:
 					mainPageGraph = files
+		# if ".csv" in files:
+		# 	csv_list.append(files)
+		# 	shutil.copy(files, "iroatuva.github.io")
 
 
 	shutil.copy("BoFa.csv","iroatuva.github.io")
+	csv_list.append("BoFa.csv") #<- this is a temporary stopgap for right now
 
 
 	day = str(date.today())
@@ -151,6 +238,13 @@ def write_HTML():
 
 
 ################################################ THE DAY-BY-DAY DATA PAGE ############################
+	selection_list = ["Bank Account Data", "Venmo Data"]
+	table_titles = ["IRO Checking Account Day-By-Day Data", "Venmo Account Day-By-Day Data"]
+
+	table_col_titles = []
+	for i in range(len(selection_list)):
+		table_col_titles.append(["Date", "Amount"])
+
 	code_text += heading
 	code_text += '<style>\n'
 	code_text += top_banner
@@ -160,50 +254,8 @@ def write_HTML():
 
 	code_text += '</style>\n</head>\n<body>\n'
 	code_text += '<h1 style = "text-align:center;"> Tables of Raw Data</h1>\n'
-	code_text += '''<select class="default" id="data_shower" name="data_shower">
-        <option value="" selected>Select the type of data you want to show</option>
-        <option value="1">Bank Account Data</option>
-        <option value="2">Venmo Data</option>
-    </select>\n'''
-	code_text += '<div id = "one" style="display:none" "width:100%";>\n'
-	code_text += '<table style="width:100%";>\n'
-	code_text += '''<tr>
-	<th colspan = "2"> <h1> Bank Account Data by Day </h1> </th>
-</tr>\n'''
-	code_text += '''<tr>
-	<th> Date </th>
-	<th> Amount </th>
-</tr>\n'''
-	with open('Bofa.csv') as f:
-		for line in f:
-			line = line.strip().split(',')
-			code_text += '<tr>\n' + '\t' + '<th> ' + line[0] + ' </th>\n'
-			code_text += '\t<th> ' + line[1] + ' </th>\n'
-			code_text += '</tr>\n'
-	code_text += '</table>\n</div>\n'
-	code_text += '<div id = "two" style = "display:none;"> Venmo Data is not available right now </div>\n'
-	code_text += '<script>\n'
-	code_text += '''var elem = document.getElementById("data_shower");
-var x = ["one","two"];
-elem.onchange = function(){
-	if (elem.value == ""){
-		for(var i = 0; i < x.length; i++){
-    		document.getElementById(x[i]).style.display = "none";
-    	}
-	}
-    if (elem.value == "1"){
-    	for(var i = 0; i < x.length; i++){
-    		document.getElementById(x[i]).style.display = "none";
-    	}
-			document.getElementById("one").style.display = "block";
-    } else if(elem.value == "2"){
-    	for(var i = 0; i < x.length; i++){
-    		document.getElementById(x[i]).style.display = "none";
-    	}
-      document.getElementById("two").style.display = "block";
-      }
-};\n'''
-	code_text += '</script>\n</body>\n</html>'
+	code_text += dropdown_displayer(csv_list, selection_list, table_titles, table_col_titles)
+	code_text += '</body>\n</html>\n'
 	with open('datapage.html','w+',encoding = 'utf-8') as f:
 		f.write(code_text)
 		code_text = ''
@@ -230,6 +282,8 @@ elem.onchange = function(){
 		f.write(code_text)
 		code_text = ''
 	shutil.move('charts.html','iroatuva.github.io/charts.html')
+
+
 ################## Branches page ####################################
 	code_text += heading
 	code_text += '<style>\n'
@@ -252,5 +306,6 @@ elem.onchange = function(){
 
 
 write_HTML()
+#print(dropdown_displayer(["BoFa.csv"],["Bank of America Data", "Venmo Data"], ["Bank of America Data", "Venmo Data"], [["Date", "Amount"], ["Date", "Amount"]]))
 
 shutil.copy("website_designer.py", "iroatuva.github.io")
