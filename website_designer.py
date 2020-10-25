@@ -261,7 +261,7 @@ def write_HTML():
 		code_text = ''
 	shutil.move('datapage.html','iroatuva.github.io/datapage.html') #You are now done with the data page
 
-######################### THERE IS NO ABOUT PAGE. TAKE OFF YOUR CLOTHES ###########################
+######################### THERE IS NO ABOUT PAGE. I WAS LYING!!!! AHAHAHAHAHAHAHA ###########################
 
 
 ######################## Extra charts and graphs page ##############################################
@@ -284,7 +284,7 @@ def write_HTML():
 	shutil.move('charts.html','iroatuva.github.io/charts.html')
 
 
-################## Branches page ####################################
+################## Branches page (I never expect this to be filled because people DGAF about numbers  :'( ####################################
 	code_text += heading
 	code_text += '<style>\n'
 	code_text += top_banner
@@ -306,6 +306,5 @@ def write_HTML():
 
 
 write_HTML()
-#print(dropdown_displayer(["BoFa.csv"],["Bank of America Data", "Venmo Data"], ["Bank of America Data", "Venmo Data"], [["Date", "Amount"], ["Date", "Amount"]]))
 
-shutil.copy("website_designer.py", "iroatuva.github.io")
+shutil.copy("website_designer.py", "iroatuva.github.io") #transfers the file to the git folder.
