@@ -14,6 +14,10 @@
   float: left;
 }
 
+tr.seperator th{
+  border-bottom: 1px solid #000;
+}
+
 li a {
   display: block;
   color: white;
@@ -47,17 +51,18 @@ li a {
 <select class="default" id="data_shower" name="data_shower">
     <option value="" selected>Select the type of data you want to show</option>
 	<option value="0">Bank Account Data</option>
-	<option value="1">Venmo Data</option>
+	<option value="1">Current Dues Paying Members</option>
 </select>
 <div id = "0" style="display:none" "width:100%";>
 <table style="width:100%";>
 <tr>
 	<th colspan = "2"> <h1> IRO Checking Account Day-By-Day Data </h1> </th> 
  </tr>
-<tr>
-	<th> Date </th>
-	<th> Amount </th>
+<tr class = "seperator">
+	<th> <h1>Date</h1> </th>
+	<th> <h1>Amount</h1> </th>
 </tr>
+<hr>
 <tr>
 	<th> 10/22/2020 </th>
 	<th> 19062.94 </th>
@@ -904,7 +909,200 @@ li a {
 </tr>
 </table>
 </div>
-<div id = "1" style = "display:none;" "text-align:center;"><br><br> not available right now </div>
+<div id = "1" style="display:none" "width:100%";>
+<table style="width:100%";>
+<tr>
+	<th colspan = "1"> <h1> Dues Paying Members </h1> </th> 
+ </tr>
+<hr>
+<tr>
+	<th> Advika Roongta </th>
+</tr>
+<tr>
+	<th> Samuel Wells </th>
+</tr>
+<tr>
+	<th> Jennifer Farfel </th>
+</tr>
+<tr>
+	<th> Sydney Sutherland </th>
+</tr>
+<tr>
+	<th> Matt Scheffel </th>
+</tr>
+<tr>
+	<th> Liam Ulsh </th>
+</tr>
+<tr>
+	<th> Austin Hanley </th>
+</tr>
+<tr>
+	<th> Adu Menon </th>
+</tr>
+<tr>
+	<th> Surya Venkatraman </th>
+</tr>
+<tr>
+	<th> Jack Schwarz </th>
+</tr>
+<tr>
+	<th> Ari Ghasemian </th>
+</tr>
+<tr>
+	<th> Megan Gibson </th>
+</tr>
+<tr>
+	<th> Andrew Farnsworth </th>
+</tr>
+<tr>
+	<th> Pratyusha Veerareddy </th>
+</tr>
+<tr>
+	<th> Neha Rana </th>
+</tr>
+<tr>
+	<th> Donna Reynolds </th>
+</tr>
+<tr>
+	<th> Bilge Batsukh </th>
+</tr>
+<tr>
+	<th> Charlie Sewell </th>
+</tr>
+<tr>
+	<th> Ishaan Sanghvi </th>
+</tr>
+<tr>
+	<th> Daniela Moreno </th>
+</tr>
+<tr>
+	<th> Sam Lisner </th>
+</tr>
+<tr>
+	<th> Rachel Lisner </th>
+</tr>
+<tr>
+	<th> Amisha Gandhi </th>
+</tr>
+<tr>
+	<th> Lara Arif </th>
+</tr>
+<tr>
+	<th> Sarah Rocca </th>
+</tr>
+<tr>
+	<th> Daniel Nakasone </th>
+</tr>
+<tr>
+	<th> Grant Giangrasso </th>
+</tr>
+<tr>
+	<th> Kira Bannister </th>
+</tr>
+<tr>
+	<th> Varun Reddy </th>
+</tr>
+<tr>
+	<th> Max Bresticker </th>
+</tr>
+<tr>
+	<th> Tricia Matyas </th>
+</tr>
+<tr>
+	<th> Emma Ross </th>
+</tr>
+<tr>
+	<th> Mohit Srivastav </th>
+</tr>
+<tr>
+	<th> Mila Ho </th>
+</tr>
+<tr>
+	<th> Stella Banino </th>
+</tr>
+<tr>
+	<th> Basak Gafoor </th>
+</tr>
+<tr>
+	<th> Jamie Garrison </th>
+</tr>
+<tr>
+	<th> Ben Ross </th>
+</tr>
+<tr>
+	<th> Kate Larkin </th>
+</tr>
+<tr>
+	<th> Isabella Sigalove </th>
+</tr>
+<tr>
+	<th> Joseph Kratz </th>
+</tr>
+<tr>
+	<th> Kasra Lekan </th>
+</tr>
+<tr>
+	<th> Christian F Jung </th>
+</tr>
+<tr>
+	<th> Taya Lorenz </th>
+</tr>
+<tr>
+	<th> Lauren Flum </th>
+</tr>
+<tr>
+	<th> Dhruv Rungta </th>
+</tr>
+<tr>
+	<th> Greta Timmins </th>
+</tr>
+<tr>
+	<th> Akshi K </th>
+</tr>
+<tr>
+	<th> Lily Zabel </th>
+</tr>
+<tr>
+	<th> Emily Kao </th>
+</tr>
+<tr>
+	<th> Rebecca Shiloff </th>
+</tr>
+<tr>
+	<th> Max Sun </th>
+</tr>
+<tr>
+	<th> Alexander Sarchet </th>
+</tr>
+<tr>
+	<th> Jonny Kim </th>
+</tr>
+<tr>
+	<th> Lauren Coppins </th>
+</tr>
+<tr>
+	<th> Pauline Chong </th>
+</tr>
+<tr>
+	<th> Kiwi Kiwinda </th>
+</tr>
+<tr>
+	<th> Margot Ehrenthal </th>
+</tr>
+<tr>
+	<th> Noah Strike </th>
+</tr>
+<tr>
+	<th> Cathy Bauer </th>
+</tr>
+<tr>
+	<th> Valerie Speirs </th>
+</tr>
+<tr>
+	<th> Rithika Kormath Anand </th>
+</tr>
+</table>
+</div>
 <script>
 var elem = document.getElementById("data_shower");
 var x = ["0", "1"];

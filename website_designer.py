@@ -22,6 +22,10 @@ top_banner = '''.barlist {
   float: left;
 }
 
+tr.seperator th{
+  border-bottom: 1px solid #000;
+}
+
 li a {
   display: block;
   color: white;
@@ -92,15 +96,19 @@ def make_table_from_csv(filename, columns, title, div_name, column_titles, place
 		code_text += '<tr>\n' 
 		code_text += '\t<th colspan = "'+str(columns)+'"> <h1> '+title+' </h1> </th> \n </tr>\n'
 
-		code_text += '<tr>\n'
-		for i in range(len(column_titles)):
-			code_text += '\t<th> ' + column_titles[i] + ' </th>\n'
-		code_text += '</tr>\n'
+		if len(column_titles) > 1:
+			code_text += '<tr class = "seperator">\n'
+			for i in range(len(column_titles)):
+				code_text += '\t<th> <h1>' + column_titles[i] + '</h1> </th>\n'
+			code_text += '</tr>\n'
+
+		code_text += '<hr>\n'
 
 		for line in f:
 			line = line.strip().split(',')
-			code_text += '<tr>\n' + '\t' + '<th> ' + line[0] + ' </th>\n'
-			code_text += '\t<th> ' + line[1] + ' </th>\n'
+			code_text += '<tr>\n'
+			for j in range(columns):
+				code_text += '\t' + '<th> ' + line[j] + ' </th>\n'
 			code_text += '</tr>\n'
 	code_text += '</table>\n</div>\n'
 
@@ -176,6 +184,7 @@ def write_HTML():
 
 	shutil.copy("BoFa.csv","iroatuva.github.io")
 	csv_list.append("BoFa.csv") #<- this is a temporary stopgap for right now
+	csv_list.append("duesPayingMembers.csv")
 
 
 	day = str(date.today())
@@ -238,12 +247,12 @@ def write_HTML():
 
 
 ################################################ THE DAY-BY-DAY DATA PAGE ############################
-	selection_list = ["Bank Account Data", "Venmo Data"]
-	table_titles = ["IRO Checking Account Day-By-Day Data", "Venmo Account Day-By-Day Data"]
+	selection_list = ["Bank Account Data", "Current Dues Paying Members"]
+	table_titles = ["IRO Checking Account Day-By-Day Data", "Dues Paying Members"]
 
 	table_col_titles = []
-	for i in range(len(selection_list)):
-		table_col_titles.append(["Date", "Amount"])
+	table_col_titles.append(["Date", "Amount"])
+	table_col_titles.append(["Dues Paying Members"])
 
 	code_text += heading
 	code_text += '<style>\n'
