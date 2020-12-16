@@ -164,19 +164,28 @@ def write_HTML():
 	bank_charts = []
 	csv_list = []
 	mainPageGraph = ""
+	deltaT = float('inf') #the largest it can possibly be!
+	rightNow = datetime.datetime.now()
 	for files in os.listdir("."):
 		if "Bank_Account_Data_IRO" in files:
 			shutil.copy(files, "iroatuva.github.io")
 			bank_charts.append(files)
 			if mainPageGraph == "":
-				mainPageGraph = files
+				mainPageGraph = files #sets it as a file on the first run through
+				both_dates = files[22:].replace('.png','').split('to')
+				both_dates[0] = both_dates[0].split('_')
+				both_dates[1] = both_dates[1].split('_')
+				curDate = datetime.datetime(int(both_dates[1][2]), int(both_dates[1][0]), int(both_dates[1][1]))
+				deltaT = rightNow - curDate
 			else:
-				date_from = mainPageGraph[22:30].split('_')
-				date_from = datetime.datetime(int(date_from[2]),int(date_from[0]),int(date_from[1]))
-				date_compared = files[22:30].split('_')
-				date_compared = datetime.datetime(int(date_compared[2]),int(date_compared[0]),int(date_compared[1]))
-				if date_compared < date_from:
+				both_dates = files[22:].split('to')
+				both_dates[0] = both_dates[0].split('_')
+				both_dates[1] = both_dates[1].split('_')
+				curDate = datetime.datetime(int(both_dates[1][2]), int(both_dates[1][0]), int(both_dates[1][1]))
+				deltaTPrime = rightNow - curDate
+				if deltaTPrime < deltaT:
 					mainPageGraph = files
+					deltaT = deltaTPrime
 		# if ".csv" in files:
 		# 	csv_list.append(files)
 		# 	shutil.copy(files, "iroatuva.github.io")
@@ -284,8 +293,11 @@ def write_HTML():
 
 	code_text += '<h1 style = "text-align:center;"> Some Extra Graphs </h1>\n'
 	code_text += '<h2 style = "text-align:center;"> Last Updated ' + day + '</h2>\n'
-	for i in bank_charts:
-		code_text += '<img src = "' + i + '" alt = "Another graph of the bank account">\n'
+	if len(bank_charts) != 0:
+		for i in bank_charts: #if there are no bank charts to see, then 
+			code_text += '<img src = "' + i + '" alt = "Another graph of the bank account">\n'
+	else:
+		code_text += '<br><br><br><h1 style="text-align:center";> There are currently no other graphs or charts to show </h1>\n'
 	code_text += '</body>\n</html>'
 	with open('charts.html', 'w+', encoding = 'utf-8') as f:
 		f.write(code_text)
