@@ -3,6 +3,7 @@ from datetime import date # An included library with Python install.
 import datetime # An included library with Python install.
 import os # An included library with Python install.
 import shutil # I believe you have to install this one
+import venmo_2
 
 months = {1:"Jan", 2:"Feb", 3:"Mar",4:"Apr",5:"May",6:"Jun",7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
 header_list = ["Home","Data & Dues Paying Members","Extra Charts and Graphs", "Statistics by Branch", "Code Host", "About"]
@@ -196,8 +197,12 @@ def write_HTML():
 
 	shutil.copy("BoFa.csv","iroatuva.github.io")
 	csv_list.append("BoFa.csv") #<- this is a temporary stopgap for right now
-	csv_list.append("duesPayingMembers.csv")
 
+	# csv_list.append("duesPayingMembers.csv")
+
+	# print("Re-checking current dues paying members")
+
+	# venmo_2.make_dpm_csv(scrape()[0])
 
 	day = str(date.today())
 	day = day.split('-')
