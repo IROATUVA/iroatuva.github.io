@@ -5,7 +5,7 @@ import os # An included library with Python install.
 import shutil # I believe you have to install this one
 
 months = {1:"Jan", 2:"Feb", 3:"Mar",4:"Apr",5:"May",6:"Jun",7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
-header_list = ["Home","Day-by-Day Data","Extra Charts and Graphs", "Statistics by Branch", "Code Host", "About"]
+header_list = ["Home","Data & Dues Paying Members","Extra Charts and Graphs", "Statistics by Branch", "Code Host", "About"]
 header_links = ["../","../datapage","../charts","../branch", "https://github.com/IROATUVA/iroatuva.github.io","https://www.iroatuva.org/about"]
 
 active_number = 0 #This is the index of the element in the header_list that is active at a given time
@@ -172,6 +172,7 @@ def write_HTML():
 			bank_charts.append(files)
 			if mainPageGraph == "":
 				mainPageGraph = files #sets it as a file on the first run through
+				print(files)
 				both_dates = files[22:].replace('.png','').split('to')
 				both_dates[0] = both_dates[0].split('_')
 				both_dates[1] = both_dates[1].split('_')
@@ -179,8 +180,10 @@ def write_HTML():
 				deltaT = rightNow - curDate
 			else:
 				both_dates = files[22:].split('to')
+				both_dates = files[22:].replace('.png','').split('to')
 				both_dates[0] = both_dates[0].split('_')
 				both_dates[1] = both_dates[1].split('_')
+				print(files)
 				curDate = datetime.datetime(int(both_dates[1][2]), int(both_dates[1][0]), int(both_dates[1][1]))
 				deltaTPrime = rightNow - curDate
 				if deltaTPrime < deltaT:
