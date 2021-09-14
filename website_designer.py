@@ -3,7 +3,6 @@ from datetime import date # An included library with Python install.
 import datetime # An included library with Python install.
 import os # An included library with Python install.
 import shutil # I believe you have to install this one
-import venmo_2
 
 months = {1:"Jan", 2:"Feb", 3:"Mar",4:"Apr",5:"May",6:"Jun",7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
 header_list = ["Home","Data & Dues Paying Members","Extra Charts and Graphs", "Statistics by Branch", "Code Host", "About"]
@@ -88,7 +87,7 @@ def make_table_from_csv(filename, columns, title, div_name, column_titles, place
 
 	code_text = ""
 
-	if placeholder:
+	if placeholder: #if the thing is a placeholder just return no display
 		return '<div id = "'+div_name+'" style = "display:none;" "text-align:center;"><br><br> not available right now </div>\n'
 
 	with open(filename, encoding='utf-8') as f:
@@ -126,6 +125,8 @@ def dropdown_displayer(filenames, selection_list, table_title_list, table_column
 		div_id_list.append(str(i))
 
 	code_text = ""
+	code_text += '<input type="text" id="txtbox">\n'
+	code_text += '<button type="button" onclick="validate()">Login</button>\n'
 	code_text += '''<select class="default" id="data_shower" name="data_shower">
     <option value="" selected>Select the type of data you want to show</option>\n'''
 
@@ -134,7 +135,7 @@ def dropdown_displayer(filenames, selection_list, table_title_list, table_column
 	code_text += '</select>\n'
 
 	for i in range(len(selection_list)):
-		if i >= len(filenames): #Adds an extra placeholder for any elements not given filenames
+		if i >= len(filenames): #Adds an extra placeholder for any elements not given filenames if there are more selections than files
 			code_text += make_table_from_csv(".csv", 0,"",div_id_list[i],[],True)
 			continue
 		code_text += make_table_from_csv(filenames[i], len(table_column_title_list[i]), table_title_list[i], div_id_list[i], table_column_title_list[i])
@@ -167,26 +168,23 @@ def write_HTML():
 	mainPageGraph = ""
 	deltaT = float('inf') #the largest it can possibly be!
 	rightNow = datetime.datetime.now()
-	for files in os.listdir("."):
+	for files in os.listdir("."): #surveys the current directory
 		if "Bank_Account_Data_IRO" in files:
 			shutil.copy(files, "iroatuva.github.io")
 			bank_charts.append(files)
 			if mainPageGraph == "":
 				mainPageGraph = files #sets it as a file on the first run through
-				print(files)
 				both_dates = files[22:].replace('.png','').split('to')
 				both_dates[0] = both_dates[0].split('_')
 				both_dates[1] = both_dates[1].split('_')
-				curDate = datetime.datetime(int(both_dates[1][2]), int(both_dates[1][0]), int(both_dates[1][1]))
-				deltaT = rightNow - curDate
+				graphDate = datetime.datetime(int(both_dates[1][2]), int(both_dates[1][0]), int(both_dates[1][1]))
+				deltaT = rightNow - graphDate
 			else:
-				both_dates = files[22:].split('to')
 				both_dates = files[22:].replace('.png','').split('to')
 				both_dates[0] = both_dates[0].split('_')
 				both_dates[1] = both_dates[1].split('_')
-				print(files)
-				curDate = datetime.datetime(int(both_dates[1][2]), int(both_dates[1][0]), int(both_dates[1][1]))
-				deltaTPrime = rightNow - curDate
+				graphDate = datetime.datetime(int(both_dates[1][2]), int(both_dates[1][0]), int(both_dates[1][1]))
+				deltaTPrime = rightNow - graphDate
 				if deltaTPrime < deltaT:
 					mainPageGraph = files
 					deltaT = deltaTPrime
@@ -260,7 +258,7 @@ def write_HTML():
 		g.write(code_text)
 		code_text = '' #You are now done with the main page
 	shutil.move('index.html','iroatuva.github.io/index.html')
-	bank_charts.remove(mainPageGraph)
+	bank_charts.remove(mainPageGraph) #removes the graph for the main page so that it won't be duplicated on the other pages
 
 
 ################################################ THE DAY-BY-DAY DATA PAGE ############################
